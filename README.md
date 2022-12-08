@@ -27,7 +27,7 @@ All you need for Markdown (keyboard shortcuts, table of contents, auto preview a
 - [FAQ](#faq)
     - [Q: Error "command 'markdown.extension.onXXXKey' not found"](#q-error-command-markdownextensiononxxxkey-not-found)
     - [Q: Which Markdown syntax is supported?](#q-which-markdown-syntax-is-supported)
-    - [Q: This extension has overridden some of my key bindings (e.g. <kbd>Ctrl</kbd> + <kbd>B</kbd>, <kbd>Alt</kbd> + <kbd>C</kbd>)](#q-this-extension-has-overridden-some-of-my-key-bindings-eg-ctrl--b-alt--c)
+    - [Q: This extension has overridden some of my key bindings (e.g. Ctrl + B, Alt + C)](#q-this-extension-has-overridden-some-of-my-key-bindings-eg-ctrl--b-alt--c)
     - [Q: The extension is unresponsive, causing lag etc. (performance issues)](#q-the-extension-is-unresponsive-causing-lag-etc-performance-issues)
 - [Changelog](#changelog)
 - [Latest Development Build](#latest-development-build)
@@ -65,7 +65,7 @@ See full key binding list in the [keyboard shortcuts](#keyboard-shortcuts-1) sec
   <summary>Click to expand</summary>
 
   1. Add `<!-- omit from toc -->` at the end of a heading to ignore it in TOC\
-    (It can also be placed above a heading)
+    (It can also be placed above a heading)  
 
   2. Use `toc.levels` setting.
 

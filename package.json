@@ -1,10 +1,10 @@
 {
-    "name": "markdown-all-in-one",
+    "name": "ibakuman-writing",
     "displayName": "%ext.displayName%",
     "description": "%ext.description%",
     "icon": "images/Markdown-mark.png",
     "version": "3.5.0",
-    "publisher": "yzhang",
+    "publisher": "ibakuman",
     "engines": {
         "vscode": "^1.63.0"
     },
