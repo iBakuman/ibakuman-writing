@@ -12,7 +12,7 @@
     "command.editing.toggleMathReverse.title": "数式環境のトグル（逆順）",
     "command.editing.toggleList.title": "リスト構文のトグル",
     "command.editing.toggleCodeBlock.title": "コードブロック構文のトグル",
-    "config.title": "Markdown All in One",
+    "config.title": "iBakuman Writing",
     "config.completion.respectVscodeSearchExclude": "VS Codeの `#search.exclude#` 設定を使用して、オートコンプリートからファイルを除外する（`node_modules` や、`bower_components` や、`*.code-search` は**常に除外**され、このオプションの影響を受けません）",
     "config.completion.root": "Pathを自動補完する際のルートフォルダ",
     "config.italic.indicator.description": "斜体テキストの囲いに `*` と `_` のどちらを使用するか",

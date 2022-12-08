@@ -12,7 +12,7 @@
     "command.editing.toggleMathReverse.title": "Toggle math environment (in reverse order)",
     "command.editing.toggleList.title": "Toggle list",
     "command.editing.toggleCodeBlock.title": "Toggle code block",
-    "config.title": "Markdown All in One",
+    "config.title": "iBakuman Writing",
     "config.completion.respectVscodeSearchExclude": "Whether to exclude files from auto-completion using VS Code's `#search.exclude#` setting. (`node_modules`, `bower_components` and `*.code-search` are **always excluded**, not affected by this option.)",
     "config.completion.root": "The root folder for path auto-completion.",
     "config.italic.indicator.description": "Use `*` or `_` to wrap italic text.",
