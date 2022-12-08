@@ -31,13 +31,13 @@ function onEnterKey(modifiers?: IModifier) {
     let textBeforeCursor = line.text.substr(0, cursorPos.character);
     let textAfterCursor = line.text.substr(cursorPos.character);
 
+    if (modifiers == 'shift') {
+        return asNormal(editor, 'enter', modifiers);
+    }
+
     let lineBreakPos = cursorPos;
     if (modifiers == 'ctrl') {
         lineBreakPos = line.range.end;
-    }
-
-    if (modifiers == 'shift') {
-        return asNormal(editor, 'enter', modifiers);
     }
 
     //// This is a possibility that the current line is a thematic break `<hr>` (GitHub #785)
