@@ -3,7 +3,7 @@
     "displayName": "%ext.displayName%",
     "description": "%ext.description%",
     "icon": "images/Markdown-mark.png",
-    "version": "3.5.0",
+    "version": "3.5.1",
     "publisher": "ibakuman",
     "engines": {
         "vscode": "^1.63.0"
@@ -264,6 +264,42 @@
                 "key": "ctrl+v",
                 "mac": "cmd+v",
                 "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && editorHasSelection"
+            },
+            {
+                "command": "markdown.extension.heading.toggleLevel1",
+                "key": "ctrl+1",
+                "mac": "cmd+1",
+                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && !editorHasSelection"
+            },
+            {
+                "command": "markdown.extension.heading.toggleLevel2",
+                "key": "ctrl+2",
+                "mac": "cmd+2",
+                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && !editorHasSelection"
+            },
+            {
+                "command": "markdown.extension.heading.toggleLevel3",
+                "key": "ctrl+3",
+                "mac": "cmd+3",
+                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && !editorHasSelection"
+            },
+            {
+                "command": "markdown.extension.heading.toggleLevel4",
+                "key": "ctrl+4",
+                "mac": "cmd+4",
+                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && !editorHasSelection"
+            },
+            {
+                "command": "markdown.extension.heading.toggleLevel5",
+                "key": "ctrl+5",
+                "mac": "cmd+5",
+                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && !editorHasSelection"
+            },
+            {
+                "command": "markdown.extension.heading.toggleLevel6",
+                "key": "ctrl+6",
+                "mac": "cmd+6",
+                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && !editorHasSelection"
             }
         ],
         "configuration": {
