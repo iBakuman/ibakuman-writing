@@ -3,7 +3,7 @@
     "displayName": "%ext.displayName%",
     "description": "%ext.description%",
     "icon": "images/Markdown-mark.png",
-    "version": "3.5.1",
+    "version": "3.5.2",
     "publisher": "ibakuman",
     "engines": {
         "vscode": "^1.63.0"
@@ -245,7 +245,7 @@
             {
                 "command": "markdown.extension.checkTaskList",
                 "key": "alt+c",
-                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
+                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && markdown.extension.editor.cursor.inList"
             },
             {
                 "command": "markdown.extension.closePreview",
@@ -300,6 +300,16 @@
                 "key": "ctrl+6",
                 "mac": "cmd+6",
                 "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && !editorHasSelection"
+            },
+            {
+                "command": "markdown.extension.editing.toggleCodeBlock",
+                "key": "alt+c",
+                "when": "editorHasSelection && editorTextFocus && !editorReadonly && !markdown.extension.editor.cursor.inList && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
+            },
+            {
+                "command": "markdown.extension.codeblock.selectAll",
+                "key": "ctrl+a",
+                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && markdown.extension.editor.cursor.inFencedCodeBlock"
             }
         ],
         "configuration": {
@@ -317,6 +327,11 @@
                     "default": "",
                     "description": "%config.completion.root%",
                     "scope": "resource"
+                },
+                "markdown.extension.codeblock.defaultLanguage": {
+                    "type": "string",
+                    "default": "javascript",
+                    "description": "%config.codeblock.defaultLang%"
                 },
                 "markdown.extension.italic.indicator": {
                     "type": "string",
@@ -403,7 +418,7 @@
                 },
                 "markdown.extension.preview.autoShowPreviewToSide": {
                     "type": "boolean",
-                    "default": false,
+                    "default": true,
                     "description": "%config.preview.autoShowPreviewToSide.description%"
                 },
                 "markdown.extension.print.absoluteImgPath": {
@@ -618,7 +633,8 @@
         "dev-build": "webpack --mode development",
         "dev-compile": "tsc --build --watch --verbose",
         "pretest": "tsc --build",
-        "test": "node ./out/test/runTest.js"
+        "test": "node ./out/test/runTest.js",
+        "package": "vsce package"
     },
     "dependencies": {
         "@neilsustc/markdown-it-katex": "^1.0.0",

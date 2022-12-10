@@ -21,6 +21,7 @@ const Default_Config: readonly IConfigurationRecord[] = [
     ["markdown.extension.tableFormatter.delimiterRowNoPadding", false],
     ["editor.insertSpaces", true],
     ["editor.tabSize", 4],
+    ["markdown.extension.codeblock.defaultLanguage", "javascript"]
 ];
 
 export function resetConfiguration(configurationTarget: vscode.ConfigurationTarget | boolean = true): Promise<void> {

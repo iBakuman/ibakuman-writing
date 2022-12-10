@@ -43,7 +43,56 @@ function toggleCodeSpan() {
 
 function toggleCodeBlock() {
     const editor = window.activeTextEditor!;
-    return editor.insertSnippet(new SnippetString('```$0\n$TM_SELECTED_TEXT\n```'));
+    if (editor.selection.isEmpty) {
+        return;
+    }
+    const shrunkSelection = shrinkSelection(editor.document, editor.selection);
+    const defaultLang = workspace
+        .getConfiguration("markdown.extension.codeblock")
+        .get<string>("defaultLanguage")!;
+    const startLineIndex = shrunkSelection.start.line;
+    // Range class is the super class of Selection class.
+    const repl = `\`\`\`${defaultLang}\n${editor.document.getText(shrunkSelection)}\n\`\`\``;
+    return editor
+        .edit((editBuilder) => {
+            editBuilder.replace(shrunkSelection, repl);
+        })
+        .then(() => {
+            editor.selection = new Selection(
+                startLineIndex,
+                3,
+                startLineIndex,
+                3 + defaultLang.length
+            );
+        });
+}
+
+/**
+ * Shrinks the selection area so that it does not contain the beginning and ending blank line.
+ * NOTE: Returns a selection field containing one empty line when all selection fields are empty.
+ * @param selection the original selection obj.
+ * @returns The shrunk selection.
+ */
+function shrinkSelection(doc: TextDocument, origin: Selection): Selection {
+    // shrink
+    let start = origin.start.line;
+    let end = origin.end.line;
+    while (start < end) {
+        if (doc.lineAt(start).isEmptyOrWhitespace) {
+            start++;
+        } else {
+            break;
+        }
+    }
+    while (start < end) {
+        if (doc.lineAt(end).isEmptyOrWhitespace) {
+            end--;
+        } else {
+            break;
+        }
+    }
+    let character = doc.lineAt(end).text.length;
+    return new Selection(start, 0, end, character);
 }
 
 function toggleStrikethrough() {
@@ -248,11 +297,11 @@ enum ListMarker {
 function getListMarker(listMarker: string): ListMarker {
     if ("- " === listMarker) {
         return ListMarker.DASH;
-    } else if  ("* " === listMarker) {
+    } else if ("* " === listMarker) {
         return ListMarker.STAR;
-    }  else if  ("+ " === listMarker) {
+    } else if ("+ " === listMarker) {
         return ListMarker.PLUS;
-    }  else if  ("1. " === listMarker) {
+    } else if ("1. " === listMarker) {
         return ListMarker.NUM;
     } else if ("1) " === listMarker) {
         return ListMarker.NUM_CLOSING_PARETHESES;
@@ -265,11 +314,11 @@ const listMarkerSimpleListStart = [ListMarker.DASH, ListMarker.STAR, ListMarker.
 const listMarkerDefaultMarkerArray = [ListMarker.DASH, ListMarker.STAR, ListMarker.PLUS, ListMarker.NUM, ListMarker.NUM_CLOSING_PARETHESES]
 const listMarkerNumRegex = /^\d+\. /;
 const listMarkerNumClosingParethesesRegex = /^\d+\) /;
-    
+
 function getMarkerEndCharacter(currentMarker: ListMarker, lineText: string): number {
     const indentation = lineText.trim().length === 0 ? lineText.length : lineText.indexOf(lineText.trim());
     const lineTextContent = lineText.slice(indentation);
-    
+
     let endCharacter = indentation;
     if (listMarkerSimpleListStart.includes(currentMarker)) {
         // `- `, `* `, `+ `
@@ -325,7 +374,7 @@ function getCandidateMarkers(): ListMarker[] {
     let configArray = workspace.getConfiguration('markdown.extension.list.toggle').get<string[]>('candidate-markers');
     if (!(configArray instanceof Array))
         return listMarkerDefaultMarkerArray;
-    
+
     // append a space after trim, markers must end with a space and remove unknown markers
     let listMarkerArray = configArray.map((e) => getListMarker(e + " ")).filter((e) => listMarkerDefaultMarkerArray.includes(e));
     // push empty in the configArray for init status without list marker

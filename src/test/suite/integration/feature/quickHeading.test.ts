@@ -4,11 +4,11 @@ import { Selection } from 'vscode';
 
 suite("Quick Heading", () => {
     suiteSetup(async () => {
-        await resetConfiguration;
+        await resetConfiguration();
     })
 
     suiteTeardown(async () => {
-        await resetConfiguration;
+        await resetConfiguration();
     })
 
     /* =============== Toggle Between Heading Level And Plain Text ============== */

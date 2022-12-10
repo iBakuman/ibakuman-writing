@@ -8,6 +8,7 @@ import * as completion from './completion';
 import * as formatting from './formatting';
 import * as listEditing from './listEditing';
 import * as quickHeading from './feature/quick-heading-level-feature';
+import * as codeBlock from './feature/code-block-feature';
 import { commonMarkEngine, MarkdownIt, mdEngine } from "./markdownEngine";
 import { extendMarkdownIt } from "./markdown-it-plugin-provider";
 import { config as configNls, localize } from './nls';
@@ -38,6 +39,8 @@ function activateMdExt(context: ExtensionContext) {
     formatting.activate(context);
     // Quick Heading
     quickHeading.activate(context);
+    // Code block related operations
+    codeBlock.activate(context);
     // Toc
     toc.activate(context);
     // Images paths and math commands completions
