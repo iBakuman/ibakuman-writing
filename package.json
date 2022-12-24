@@ -3,7 +3,7 @@
     "displayName": "%ext.displayName%",
     "description": "%ext.description%",
     "icon": "images/Markdown-mark.png",
-    "version": "3.5.2",
+    "version": "3.5.3",
     "publisher": "ibakuman",
     "engines": {
         "vscode": "^1.63.0"
@@ -310,6 +310,11 @@
                 "command": "markdown.extension.codeblock.selectAll",
                 "key": "ctrl+a",
                 "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && markdown.extension.editor.cursor.inFencedCodeBlock"
+            },
+            {
+                "command": "markdown.extension.note.highlight",
+                "key": "alt+b",
+                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
             }
         ],
         "configuration": {
@@ -332,6 +337,11 @@
                     "type": "string",
                     "default": "javascript",
                     "description": "%config.codeblock.defaultLang%"
+                },
+                "markdown.extension.note.highlightClass": {
+                    "type": "string",
+                    "default": "ibakuman-inline-note",
+                    "description": "%config.note.highlightClass%"
                 },
                 "markdown.extension.italic.indicator": {
                     "type": "string",
@@ -598,6 +608,7 @@
         "markdown.markdownItPlugins": true,
         "markdown.previewStyles": [
             "./media/checkbox.css",
+            "./media/note.css",
             "./node_modules/katex/dist/katex.min.css"
         ],
         "grammars": [
@@ -634,7 +645,7 @@
         "dev-compile": "tsc --build --watch --verbose",
         "pretest": "tsc --build",
         "test": "node ./out/test/runTest.js",
-        "package": "vsce package"
+        "package": "vsce package -o ./dist/vsix/%npm_package_name%-%npm_package_version%.vsix"
     },
     "dependencies": {
         "@neilsustc/markdown-it-katex": "^1.0.0",

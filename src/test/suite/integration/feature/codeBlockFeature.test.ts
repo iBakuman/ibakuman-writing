@@ -2,7 +2,7 @@ import { resetConfiguration } from "../../util/configuration";
 import { testCommand } from "../../util/generic";
 import { Selection } from "vscode";
 
-suite("Code Block Related Operations", () => {
+suite("Code Block Related Operations.", () => {
     suiteSetup(async () => {
         await resetConfiguration();
     });

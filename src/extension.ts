@@ -1,21 +1,22 @@
 'use strict';
 
 import { ExtensionContext, languages, Uri, window, workspace } from 'vscode';
-import { configManager } from "./configuration/manager";
-import { contextServiceManager } from "./editor-context-service/manager"
-import { decorationManager } from "./theming/decorationManager";
 import * as completion from './completion';
+import { configManager } from "./configuration/manager";
+import { contextServiceManager } from "./editor-context-service/manager";
+import * as codeBlock from './feature/code-block-feature';
+import * as noteFeature from './feature/note-feature';
+import * as quickHeading from './feature/quick-heading-level-feature';
 import * as formatting from './formatting';
 import * as listEditing from './listEditing';
-import * as quickHeading from './feature/quick-heading-level-feature';
-import * as codeBlock from './feature/code-block-feature';
-import { commonMarkEngine, MarkdownIt, mdEngine } from "./markdownEngine";
 import { extendMarkdownIt } from "./markdown-it-plugin-provider";
+import { commonMarkEngine, mdEngine } from "./markdownEngine";
 import { config as configNls, localize } from './nls';
 import resolveResource from "./nls/resolveResource";
 import * as preview from './preview';
 import * as print from './print';
 import * as tableFormatter from './tableFormatter';
+import { decorationManager } from "./theming/decorationManager";
 import * as toc from './toc';
 
 export function activate(context: ExtensionContext) {
@@ -41,6 +42,8 @@ function activateMdExt(context: ExtensionContext) {
     quickHeading.activate(context);
     // Code block related operations
     codeBlock.activate(context);
+    // Note related feature
+    noteFeature.activate(context);
     // Toc
     toc.activate(context);
     // Images paths and math commands completions

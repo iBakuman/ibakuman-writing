@@ -13,7 +13,7 @@ const Default_Config: readonly IConfigurationRecord[] = [
     ["markdown.extension.toc.updateOnSave", true],
     ["markdown.extension.toc.slugifyMode", "github"],
     ["markdown.extension.toc.omittedFromToc", Object.create(null)],
-    ["markdown.extension.preview.autoShowPreviewToSide", false],
+    ["markdown.extension.preview.autoShowPreviewToSide", true],
     ["markdown.extension.orderedList.marker", "ordered"],
     ["markdown.extension.italic.indicator", "*"],
     ["markdown.extension.bold.indicator", "**"],

@@ -2,7 +2,7 @@ import { resetConfiguration } from "../../util/configuration"
 import { testCommand } from "../../util/generic";
 import { Selection } from 'vscode';
 
-suite("Quick Heading", () => {
+suite("Quick Heading.", () => {
     suiteSetup(async () => {
         await resetConfiguration();
     })
