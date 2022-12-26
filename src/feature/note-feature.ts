@@ -1,12 +1,11 @@
-import { commands, ExtensionContext, window, Selection, Range, workspace, TextDocument, Position } from 'vscode';
+import { commands, env, ExtensionContext, Position, Range, Selection, window, workspace } from 'vscode';
 
 export function activate(context: ExtensionContext) {
     // "key": "alt+b"
     // "when": "editorHasSelection && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
     context.subscriptions.push(
-        commands.registerCommand('markdown.extension.note.highlight', () =>
-            highlightSelectedTxt()
-        )
+        commands.registerCommand('markdown.extension.note.highlight', () => highlightSelectedTxt()),
+        commands.registerCommand('markdown.extension.note.addTranslation', () => addTranslation())
     )
 }
 
@@ -17,7 +16,7 @@ function highlightSelectedTxt() {
     const className = workspace
         .getConfiguration("markdown.extension.note")
         .get<string>("highlightClass")!;
-    const openTag = `<span class='${className}'>`;
+    const openTag = `<span class="${className}">`;
     const closeTag = `</span>`;
 
     let repl = ''
@@ -38,18 +37,18 @@ function highlightSelectedTxt() {
 
             let nextCursorPos: Position;
             if (curCursorPos.character - match.index! >= openTag.length) {
-                // `<span class='...'>te|xt</span>` ---> `te|xt`
+                // `<span class="..."">te|xt</span>` ---> `te|xt`
                 nextCursorPos = curCursorPos.translate(0, -openTag.length);
             } else {
-                // `<spa|n class='...'>te|xt</spa|n>` ---> `|text`
+                // `<spa|n class="...">te|xt</spa|n>` ---> `|text`
                 nextCursorPos = curCursorPos.with({ character: match.index! });
             }
 
             newSelection = new Selection(nextCursorPos, nextCursorPos);
         } else {
             // quick styling, wrap cursor
-            // `|` ---> `<span class='...'>|</span>`
-            repl = `<span class='${className}'></span>`;
+            // `|` ---> `<span class="...">|</span>`
+            repl = `<span class="${className}"></span>`;
             replRange = selection;
             const nextCursorPos = curCursorPos.translate(0, openTag.length);
             newSelection = new Selection(nextCursorPos, nextCursorPos);
@@ -66,5 +65,22 @@ function highlightSelectedTxt() {
     }).then(() => {
         // Fix cursor position
         editor.selection = newSelection;
+    })
+}
+
+async function addTranslation() {
+    const editor = window.activeTextEditor!;
+    const selection = editor.selection;
+    if (selection.isEmpty) {
+        return;
+    }
+    const translation = await env.clipboard.readText();
+    const className = workspace
+        .getConfiguration("markdown.extension.note")
+        .get<string>("translationClass")!;
+    const content = editor.document.getText(selection);
+    const repl = `<span class="${className}">${content}<sub> { ${translation} }</sub></span>`;
+    return editor.edit((editBuilder) => {
+        editBuilder.replace(selection, repl);
     })
 }

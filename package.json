@@ -3,7 +3,7 @@
     "displayName": "%ext.displayName%",
     "description": "%ext.description%",
     "icon": "images/Markdown-mark.png",
-    "version": "3.5.3",
+    "version": "3.5.4",
     "publisher": "ibakuman",
     "engines": {
         "vscode": "^1.63.0"
@@ -315,6 +315,11 @@
                 "command": "markdown.extension.note.highlight",
                 "key": "alt+b",
                 "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
+            },
+            {
+                "command": "markdown.extension.note.addTranslation",
+                "key": "alt+v",
+                "when": "editorTextFocus && editorHasSelection && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
             }
         ],
         "configuration": {
@@ -342,6 +347,11 @@
                     "type": "string",
                     "default": "ibakuman-inline-note",
                     "description": "%config.note.highlightClass%"
+                },
+                "markdown.extension.note.translationClass": {
+                    "type": "string",
+                    "default": "ibakuman-inline-translation",
+                    "description": "%config.note.translationClass%"
                 },
                 "markdown.extension.italic.indicator": {
                     "type": "string",

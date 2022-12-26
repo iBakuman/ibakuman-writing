@@ -2,3 +2,7 @@ span.ibakuman-inline-note {
     background-color: #272822;
     color: yellow;
 }
+
+span.ibakuman-inline-translation {
+    color: cyan;
+}
