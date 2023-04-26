@@ -3,7 +3,7 @@
     "displayName": "%ext.displayName%",
     "description": "%ext.description%",
     "icon": "images/Markdown-mark.png",
-    "version": "3.5.4",
+    "version": "3.5.5",
     "publisher": "ibakuman",
     "engines": {
         "vscode": "^1.63.0"
@@ -72,6 +72,12 @@
             }
         ],
         "commands": [
+            {
+                "command": "markdown.extension.downloadAllImage",
+                "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
+                "title": "%command.downloadAllImage.title%",
+                "category": "Markdown All in One"
+            },
             {
                 "command": "markdown.extension.toc.create",
                 "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
@@ -337,6 +343,11 @@
                     "default": "",
                     "description": "%config.completion.root%",
                     "scope": "resource"
+                },
+                "markdown.extension.downloadImage.folder": {
+                    "type": "string",
+                    "default": "assets",
+                    "description": "%config.downloadImage.folder%"
                 },
                 "markdown.extension.codeblock.defaultLanguage": {
                     "type": "string",
@@ -660,13 +671,18 @@
     "dependencies": {
         "@neilsustc/markdown-it-katex": "^1.0.0",
         "entities": "^3.0.1",
+        "file-type": "^18.0.0",
+        "filenamify": "^5.1.1",
+        "got": "^12.5.3",
         "grapheme-splitter": "^1.0.4",
         "highlight.js": "^11.5.1",
         "image-size": "^0.9.3",
+        "is-svg": "^4.3.2",
         "katex": "^0.15.3",
         "markdown-it": "^12.3.2",
         "markdown-it-task-lists": "^2.1.1",
-        "string-similarity": "^4.0.4"
+        "string-similarity": "^4.0.4",
+        "ts-xxhash": "^1.0.6"
     },
     "devDependencies": {
         "@types/glob": "^7.2.0",

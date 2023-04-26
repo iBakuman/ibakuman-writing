@@ -7,6 +7,7 @@ import { contextServiceManager } from "./editor-context-service/manager";
 import * as codeBlock from './feature/code-block-feature';
 import * as noteFeature from './feature/note-feature';
 import * as quickHeading from './feature/quick-heading-level-feature';
+import * as downloadImage from './feature/download-image-feature';
 import * as formatting from './formatting';
 import * as listEditing from './listEditing';
 import { extendMarkdownIt } from "./markdown-it-plugin-provider";
@@ -44,6 +45,8 @@ function activateMdExt(context: ExtensionContext) {
     codeBlock.activate(context);
     // Note related feature
     noteFeature.activate(context);
+    // Download all images feature
+    downloadImage.activate(context);
     // Toc
     toc.activate(context);
     // Images paths and math commands completions

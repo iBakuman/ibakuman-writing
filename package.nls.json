@@ -1,6 +1,7 @@
 {
     "ext.displayName": "iBakuman Writing",
     "ext.description": "All you need to write Markdown (keyboard shortcuts, table of contents, auto preview and more)",
+    "command.downloadAllImage.title": "Download all images of the current opened file to local",
     "command.toc.create.title": "Create Table of Contents",
     "command.toc.update.title": "Update Table of Contents",
     "command.toc.addSecNumbers.title": "Add/Update section numbers",
@@ -13,6 +14,7 @@
     "command.editing.toggleList.title": "Toggle list",
     "command.editing.toggleCodeBlock.title": "Toggle code block",
     "config.title": "iBakuman Writing",
+    "config.downloadImage.folder": "The local folder for storing images",
     "config.codeblock.defaultLang": "The default language for the code block",
     "config.note.highlightClass": "The class name of the span tag that wraps the text to be highlighted",
     "config.note.translationClass": "The class name of the sub tag that wraps the translation",
