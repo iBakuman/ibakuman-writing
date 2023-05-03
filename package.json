@@ -699,6 +699,7 @@
         "katex": "^0.15.3",
         "markdown-it": "^12.3.2",
         "markdown-it-task-lists": "^2.1.1",
+        "moment": "^2.29.4",
         "string-similarity": "^4.0.4",
         "ts-xxhash": "^1.0.6"
     },

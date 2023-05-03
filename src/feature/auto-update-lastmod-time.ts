@@ -1,8 +1,5 @@
-import { TextEditor, Position, TextDocument } from 'vscode';
-import { TextDocumentWillSaveEvent } from 'vscode';
-import { WorkspaceEdit } from 'vscode';
-import { window } from 'vscode';
-import { ExtensionContext, commands, workspace } from 'vscode';
+import * as moment from 'moment';
+import { ExtensionContext, TextDocument, TextDocumentWillSaveEvent, WorkspaceEdit, commands, window, workspace } from 'vscode';
 
 export function activate(context: ExtensionContext) {
     // "key": "alt+b"
@@ -18,17 +15,7 @@ export function activate(context: ExtensionContext) {
     }
 }
 
-const DATE_TIME_FORMAT:Intl.DateTimeFormatOptions = {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    timeZone: 'Asia/Shanghai'
-};
-
-const LOCALS = 'zh-CN'
+const utfOffsetInMinutes = 480
 
 function updateLastModifiedTimeOnSave(event: TextDocumentWillSaveEvent) {
     const doc = event.document
@@ -41,7 +28,7 @@ function updateLastModifiedTimeOnSave(event: TextDocumentWillSaveEvent) {
     // FMMaxLineNum represents the last line number of front matter.
     const { hasFM, FMMaxLineNum, dateIdx, lastModIdx } = hasLastmodField(doc, filedName)
     if (hasFM) {
-        const currentTime = new Date().toLocaleString(LOCALS, DATE_TIME_FORMAT)
+        const currentTime = moment().utcOffset(utfOffsetInMinutes).format('YYYY-MM-DDTHH:mm:ssZ')
         const newLastModifiedTime = `${filedName}: ${currentTime}`
         // The 'lastMod' field already exists, update its value to current date time.
         if (lastModIdx !== -1) {
@@ -76,7 +63,7 @@ function updateLastModifiedTime() {
     // FMMaxLineNum represents the last line number of front matter.
     const { hasFM, FMMaxLineNum, dateIdx, lastModIdx } = hasLastmodField(doc, filedName)
     if (hasFM) {
-        const currentTime = new Date().toLocaleString(LOCALS, DATE_TIME_FORMAT)
+        const currentTime = moment().utcOffset(utfOffsetInMinutes).format('YYYY-MM-DDTHH:mm:ssZ')
         const newLastModifiedTime = `${filedName}: ${currentTime}`
         // The 'lastMod' field already exists, update its value to current date time.
         if (lastModIdx !== -1) {
