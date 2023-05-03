@@ -16,7 +16,7 @@
             "outFiles": [
                 "${workspaceFolder}/dist/**/*.js"
             ],
-            "preLaunchTask": "npm: dev-build"
+            // "preLaunchTask": "npm: dev-build"
         },
         {
             "name": "Extension Tests",

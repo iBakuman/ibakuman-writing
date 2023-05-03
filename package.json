@@ -73,6 +73,12 @@
         ],
         "commands": [
             {
+                "command": "markdown.extension.autoUpdateLastModifiedTime",
+                "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
+                "title": "%command.autoUpdateLastModifiedTime%",
+                "category": "Markdown All in One"
+            },
+            {
                 "command": "markdown.extension.downloadAllImage",
                 "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
                 "title": "%command.downloadAllImage.title%",
@@ -332,6 +338,16 @@
             "type": "object",
             "title": "%config.title%",
             "properties": {
+                "markdown.extension.autoUpdateLastModifiedTime.enable": {
+                    "type": "boolean",
+                    "default": true,
+                    "markdownDescription": "%config.autoUpdateLastModifiedTime.enable%"
+                },
+                "markdown.extension.autoUpdateLastModifiedTime.fieldName": {
+                    "type": "string",
+                    "default": "lastmod",
+                    "markdownDescription": "%config.autoUpdateLastModifiedTime.fieldName%"
+                },
                 "markdown.extension.completion.respectVscodeSearchExclude": {
                     "type": "boolean",
                     "default": true,
@@ -666,14 +682,16 @@
         "dev-compile": "tsc --build --watch --verbose",
         "pretest": "tsc --build",
         "test": "node ./out/test/runTest.js",
-        "package": "vsce package -o ./dist/vsix/%npm_package_name%-%npm_package_version%.vsix"
+        "package": "node -e \"require('./build/dist.js').package()\"",
+        "install": "node -e \"require('./build/dist.js').install()\"",
+        "uninstall": "node -e \"require('./build/dist.js').uninstall()\""
     },
     "dependencies": {
         "@neilsustc/markdown-it-katex": "^1.0.0",
         "entities": "^3.0.1",
         "file-type": "^18.0.0",
         "filenamify": "^5.1.1",
-        "got": "^12.5.3",
+        "got": "^11.8.2",
         "grapheme-splitter": "^1.0.4",
         "highlight.js": "^11.5.1",
         "image-size": "^0.9.3",
@@ -693,6 +711,7 @@
         "@types/string-similarity": "^4.0.0",
         "@types/vscode": "~1.63.2",
         "@vscode/test-electron": "^1.6.2",
+        "@vscode/vsce": "^2.19.0",
         "glob": "^7.2.0",
         "mocha": "^9.2.2",
         "ts-loader": "^9.2.8",

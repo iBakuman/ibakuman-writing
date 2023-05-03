@@ -1,7 +1,7 @@
 import type { KatexOptions } from "katex";
 import { configManager } from "./configuration/manager";
 // @ts-ignore
-import { shortcodePlugin } from "./markdown-it-plugin/shortcode";
+// import { shortcodePlugin } from "./markdown-it-plugin/shortcode";
 import MarkdownIt = require("markdown-it");
 
 const katexOptions: KatexOptions = { throwOnError: false };
@@ -10,7 +10,7 @@ const katexOptions: KatexOptions = { throwOnError: false };
  * https://code.visualstudio.com/api/extension-guides/markdown-extension#adding-support-for-new-syntax-with-markdownit-plugins
  */
 export function extendMarkdownIt(md: MarkdownIt): MarkdownIt {
-    md.use(require("markdown-it-task-lists"), { enabled: true }).use(shortcodePlugin);
+    // md.use(require("markdown-it-task-lists"), { enabled: true }).use(shortcodePlugin);
 
     if (configManager.get("math.enabled")) {
         // We need side effects. (#521)
