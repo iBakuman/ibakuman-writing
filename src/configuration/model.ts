@@ -61,6 +61,22 @@ export interface IConfigurationKeyTypeMap {
     "toc.slugifyMode": SlugifyMode;
     "toc.unorderedList.marker": MarkdownBulletListMarker;
     "toc.updateOnSave": boolean;
+
+    /** note-feature config */
+    "note.translationClass": string;
+    "note.highlightClass": string;
+    /** The path of translation file relative to the workspace */
+    "note.translationFilePath": string;
+
+    /** the folder where the downloaded images are stored */
+    "downloadImage.folder": string;
+
+    /** The name of the field that stores the last modified date in the front matter*/
+    "autoUpdateLastModifiedTime.fieldName": string;
+
+    /** Whether to enable automatic updating of the last modification time when saving a file */
+    "autoUpdateLastModifiedTime.enable": boolean;
+
 }
 
 /**

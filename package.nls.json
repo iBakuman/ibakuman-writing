@@ -21,6 +21,7 @@
     "config.codeblock.defaultLang": "The default language for the code block",
     "config.note.highlightClass": "The class name of the span tag that wraps the text to be highlighted",
     "config.note.translationClass": "The class name of the sub tag that wraps the translation",
+    "config.note.translationFilePath": "The path of translation file",
     "config.completion.respectVscodeSearchExclude": "Whether to exclude files from auto-completion using VS Code's `#search.exclude#` setting. (`node_modules`, `bower_components` and `*.code-search` are **always excluded**, not affected by this option.)",
     "config.completion.root": "The root folder for path auto-completion.",
     "config.italic.indicator.description": "Use `*` or `_` to wrap italic text.",

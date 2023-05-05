@@ -1,11 +1,14 @@
-import { commands, env, ExtensionContext, Position, Range, Selection, window, workspace } from 'vscode';
+import { commands, env, ExtensionContext, Position, Range, Selection, TextDocument, window, workspace, WorkspaceEdit } from 'vscode';
+import { configManager } from '../configuration/manager';
+import path = require('path');
 
 export function activate(context: ExtensionContext) {
     // "key": "alt+b"
     // "when": "editorHasSelection && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
     context.subscriptions.push(
         commands.registerCommand('markdown.extension.note.highlight', () => highlightSelectedTxt()),
-        commands.registerCommand('markdown.extension.note.addTranslation', () => addTranslation())
+        commands.registerCommand('markdown.extension.note.addTranslation', () => addTranslation()),
+        commands.registerCommand('markdown.extension.note.addTranslationToMD', () => addTranslationToMD())
     )
 }
 
@@ -13,9 +16,7 @@ function highlightSelectedTxt() {
     const editor = window.activeTextEditor!;
     const selection = editor.selection;
     const curCursorPos = editor.selection.active;
-    const className = workspace
-        .getConfiguration("markdown.extension.note")
-        .get<string>("highlightClass")!;
+    const className = configManager.get("note.highlightClass");
     const openTag = `<span class="${className}">`;
     const closeTag = `</span>`;
 
@@ -75,12 +76,78 @@ async function addTranslation() {
         return;
     }
     const translation = await env.clipboard.readText();
-    const className = workspace
-        .getConfiguration("markdown.extension.note")
-        .get<string>("translationClass")!;
+    const className = configManager.get("note.translationClass")
     const content = editor.document.getText(selection);
     const repl = `<span class="${className}">${content}<sub> { ${translation} }</sub></span>`;
     return editor.edit((editBuilder) => {
         editBuilder.replace(selection, repl);
     })
+}
+
+async function addTranslationToMD() {
+    const editor = window.activeTextEditor
+    if (!editor) {
+        return
+    }
+    const selection = editor.selection
+    if (selection.isEmpty) {
+        return
+    }
+    let translationFilePath = configManager.get('note.translationFilePath')
+    if (!translationFilePath.startsWith('/')) {// relative path
+        if (workspace.workspaceFolders) {
+            const workspacePath = workspace.workspaceFolders[0].uri.fsPath
+            translationFilePath = path.join(workspacePath, translationFilePath)
+        } else {
+            return
+        }
+    }
+    let targetDoc: TextDocument
+    try {
+        targetDoc = await workspace.openTextDocument(translationFilePath)
+    } catch (error) {
+        window.showErrorMessage('The translation file does not exists!')
+        return
+    }
+    const words = editor.document.getText(selection).trim().split(" ")
+    // construct translation content
+    const heading = `## ${words.join(" ")}`
+    const translation = await env.clipboard.readText()
+    const contentToInsert = `\n${heading}\n\n${translation}`
+    // insert translation to target doc
+    const targetLineNum = getInsertPosition(targetDoc)
+    const edit = new WorkspaceEdit()
+    edit.insert(targetDoc.uri, targetDoc.lineAt(targetLineNum).range.start.translate(1, 0), contentToInsert)
+
+    const isOk = await workspace.applyEdit(edit)
+    if (!isOk) {
+        window.showErrorMessage('Insert content to target doc failed!')
+        return
+    }
+
+    // change the original doc to reference the translation in target doc
+    let currentPath = editor.document.uri.fsPath
+    if (currentPath.endsWith('.md')) {
+        currentPath = path.dirname(currentPath)
+    }
+    let targetPath = targetDoc.uri.fsPath
+    if (targetPath.endsWith('.md')) {
+        targetPath = path.dirname(targetPath)
+    }
+    const relativePath = path.relative(currentPath, targetPath).toLowerCase()
+    const link = `[${words.join(" ")}](${relativePath}/#${words.join('-').toLowerCase()})`
+
+    await editor.edit((editBuilder)=>{
+        editBuilder.replace(selection, link)
+    })
+}
+
+
+function getInsertPosition(doc: TextDocument) {
+    for (let lineNum = doc.lineCount - 1; lineNum >= 0; lineNum--) {
+        if (!doc.lineAt(lineNum).isEmptyOrWhitespace) {// the current line is not empty
+            return lineNum
+        }
+    }
+    return 0
 }

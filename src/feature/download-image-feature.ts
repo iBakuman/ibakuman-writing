@@ -7,6 +7,7 @@ import { commands, ExtensionContext, Range, Uri, window, workspace } from 'vscod
 import path = require('path');
 
 import { linkHashes } from '../util/linkHash';
+import { configManager } from "../configuration/manager";
 
 export function activate(context: ExtensionContext) {
     // "key": "alt+b"
@@ -17,7 +18,7 @@ export function activate(context: ExtensionContext) {
 }
 
 async function downloadAllImages() {
-    const folder = workspace.getConfiguration('markdown.extension.downloadImage').get<string>('folder')!;
+    const folder = configManager.get('downloadImage.folder');
     const editor = window.activeTextEditor!;
     const content = editor.document.getText();
     const assetsFolder = Uri.joinPath(editor.document.uri, '..', folder);

@@ -6,7 +6,7 @@ import { IConfigurationKeyTypeMap } from "./model";
  * Configuration keys that are no longer supported,
  * and will be removed in the next major version.
  */
-export const Deprecated_Keys = Object.freeze<string>([
+export const Deprecated_Keys = Object.freeze<string[]>([
     "syntax.decorations", //
 ]);
 

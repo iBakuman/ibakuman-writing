@@ -6,6 +6,7 @@ ROADMAP.md
 /.vscode-test
 dist
 tmp
+test/content
 
 # The welcome materials
 /welcome/**

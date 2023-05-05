@@ -329,6 +329,11 @@
                 "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
             },
             {
+                "command": "markdown.extension.note.addTranslationToMD",
+                "key": "alt+e",
+                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
+            },
+            {
                 "command": "markdown.extension.note.addTranslation",
                 "key": "alt+v",
                 "when": "editorTextFocus && editorHasSelection && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
@@ -379,6 +384,11 @@
                     "type": "string",
                     "default": "ibakuman-inline-translation",
                     "description": "%config.note.translationClass%"
+                },
+                "markdown.extension.note.translationFilePath": {
+                    "type": "string",
+                    "default": "./content/posts/english/algorithm/index.en.md",
+                    "description": "%config.note.translationFilePath%"
                 },
                 "markdown.extension.italic.indicator": {
                     "type": "string",

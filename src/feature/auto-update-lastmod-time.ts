@@ -1,5 +1,6 @@
 import * as moment from 'moment';
 import { ExtensionContext, TextDocument, TextDocumentWillSaveEvent, WorkspaceEdit, commands, window, workspace } from 'vscode';
+import { configManager } from '../configuration/manager';
 
 export function activate(context: ExtensionContext) {
     // "key": "alt+b"
@@ -7,7 +8,7 @@ export function activate(context: ExtensionContext) {
     context.subscriptions.push(
         commands.registerCommand('markdown.extension.autoUpdateLastModifiedTime', () => updateLastModifiedTime()),
     )
-    const enabled = workspace.getConfiguration('markdown.extension.autoUpdateLastModifiedTime').get<boolean>('enable')!;
+    const enabled = configManager.get('autoUpdateLastModifiedTime.enable')
     if (enabled) {
         workspace.onWillSaveTextDocument((event) => {
             updateLastModifiedTimeOnSave(event)
@@ -23,13 +24,13 @@ function updateLastModifiedTimeOnSave(event: TextDocumentWillSaveEvent) {
         return
     }
     const edit = new WorkspaceEdit()
-    const filedName = workspace.getConfiguration('markdown.extension.autoUpdateLastModifiedTime').get<string>('fieldName')!;
+    const fieldName = configManager.get('autoUpdateLastModifiedTime.fieldName')
     // hasFM represents whether the current markdown file has front matter.
     // FMMaxLineNum represents the last line number of front matter.
-    const { hasFM, FMMaxLineNum, dateIdx, lastModIdx } = hasLastmodField(doc, filedName)
+    const { hasFM, FMMaxLineNum, dateIdx, lastModIdx } = hasLastmodField(doc, fieldName)
     if (hasFM) {
         const currentTime = moment().utcOffset(utfOffsetInMinutes).format('YYYY-MM-DDTHH:mm:ssZ')
-        const newLastModifiedTime = `${filedName}: ${currentTime}`
+        const newLastModifiedTime = `${fieldName}: ${currentTime}`
         // The 'lastMod' field already exists, update its value to current date time.
         if (lastModIdx !== -1) {
             edit.replace(doc.uri, doc.lineAt(lastModIdx).range, newLastModifiedTime)
@@ -58,13 +59,13 @@ function updateLastModifiedTime() {
         return
     }
 
-    const filedName = workspace.getConfiguration('markdown.extension.autoUpdateLastModifiedTime').get<string>('fieldName')!;
+    const fieldName = configManager.get('autoUpdateLastModifiedTime.fieldName')
     // hasFM represents whether the current markdown file has front matter.
     // FMMaxLineNum represents the last line number of front matter.
-    const { hasFM, FMMaxLineNum, dateIdx, lastModIdx } = hasLastmodField(doc, filedName)
+    const { hasFM, FMMaxLineNum, dateIdx, lastModIdx } = hasLastmodField(doc, fieldName)
     if (hasFM) {
         const currentTime = moment().utcOffset(utfOffsetInMinutes).format('YYYY-MM-DDTHH:mm:ssZ')
-        const newLastModifiedTime = `${filedName}: ${currentTime}`
+        const newLastModifiedTime = `${fieldName}: ${currentTime}`
         // The 'lastMod' field already exists, update its value to current date time.
         if (lastModIdx !== -1) {
             editor.edit((editBuilder) => {
