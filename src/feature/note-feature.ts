@@ -8,7 +8,9 @@ export function activate(context: ExtensionContext) {
     context.subscriptions.push(
         commands.registerCommand('markdown.extension.note.highlight', () => highlightSelectedTxt()),
         commands.registerCommand('markdown.extension.note.addTranslation', () => addTranslation()),
-        commands.registerCommand('markdown.extension.note.addTranslationToMD', () => addTranslationToMD())
+        commands.registerCommand('markdown.extension.note.addTranslationToMD', () => addTranslationToMD()),
+        commands.registerCommand('markdown.extension.note.increaseHeadingLevel', () => increaseHeadingLevel()),
+        commands.registerCommand('markdown.extension.note.decreaseHeadingLevel', () => decreaseHeadingLevel()),
     )
 }
 
@@ -137,7 +139,7 @@ async function addTranslationToMD() {
     const relativePath = path.relative(currentPath, targetPath).toLowerCase()
     const link = `[${words.join(" ")}](${relativePath}/#${words.join('-').toLowerCase()})`
 
-    await editor.edit((editBuilder)=>{
+    await editor.edit((editBuilder) => {
         editBuilder.replace(selection, link)
     })
 }
@@ -150,4 +152,57 @@ function getInsertPosition(doc: TextDocument) {
         }
     }
     return 0
+}
+
+
+// const HEADING_LEVELS = [1, 2, 3, 4, 5, 6]
+async function increaseHeadingLevel() {
+    const editor = window.activeTextEditor
+    if (!editor) {
+        return
+    }
+
+    const doc = editor.document
+    for (let lineNum = 0; lineNum < doc.lineCount; lineNum++) {
+        const line = doc.lineAt(lineNum)
+        if (line.text.startsWith('#')) {
+            let [textWithHeading, hashLen] = [line.text, 1]
+            while (hashLen < line.text.length && textWithHeading[hashLen] === '#') {
+                hashLen++
+            }
+
+            // Only increase heading levels lower than 1
+            if (hashLen > 1) {
+                await editor.edit((editBuilder) => {
+                    const position = new Position(line.lineNumber, 0)
+                    const range = new Range(position, position.translate(0, 1))
+                    editBuilder.delete(range)
+                })
+            }
+        }
+    }
+}
+
+async function decreaseHeadingLevel() {
+    const editor = window.activeTextEditor
+    if (!editor) {
+        return
+    }
+
+    const doc = editor.document
+    for (let lineNum = 0; lineNum < doc.lineCount; lineNum++) {
+        const line = doc.lineAt(lineNum)
+        if (line.text.startsWith('#')) {
+            let [textWithHeading, hashLen] = [line.text, 1]
+            while (hashLen < textWithHeading.length && textWithHeading[hashLen] == '#') {
+                hashLen++
+            }
+
+            if (hashLen < 6) {
+                await editor.edit((editBuilder) => {
+                    editBuilder.insert(line.range.start, '#')
+                })
+            }
+        }
+    }
 }
