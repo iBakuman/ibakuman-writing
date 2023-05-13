@@ -1,6 +1,7 @@
 {
     "ext.displayName": "iBakuman Writing",
     "ext.description": "All you need to write Markdown (keyboard shortcuts, table of contents, auto preview and more)",
+    "command.leetcode.formatProblem":"Format leetcode problem",
     "command.autoUpdateLastModifiedTime":"Update last modified in the front matter",
     "command.downloadAllImage.title": "Download all images of the current opened file to local",
     "command.toc.create.title": "Create Table of Contents",

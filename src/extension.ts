@@ -9,6 +9,7 @@ import * as noteFeature from './feature/note-feature';
 import * as quickHeading from './feature/quick-heading-level-feature';
 import * as downloadImage from './feature/download-image-feature';
 import * as autoUpdateLastModifiedTime from './feature/auto-update-lastmod-time';
+import * as leetcode from './feature/leetcode';
 import * as formatting from './formatting';
 import * as listEditing from './listEditing';
 import { extendMarkdownIt } from "./markdown-it-plugin-provider";
@@ -50,6 +51,8 @@ function activateMdExt(context: ExtensionContext) {
     downloadImage.activate(context);
     // Auto update last modified time
     autoUpdateLastModifiedTime.activate(context)
+    // LeetCode related feature
+    leetcode.activate(context)
     // Toc
     toc.activate(context);
     // Images paths and math commands completions

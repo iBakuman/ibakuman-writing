@@ -73,6 +73,12 @@
         ],
         "commands": [
             {
+                "command": "markdown.extension.leetcode.formatProblem",
+                "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
+                "title": "%command.leetcode.formatProblem%",
+                "category": "Markdown All in One"
+            },
+            {
                 "command": "markdown.extension.autoUpdateLastModifiedTime",
                 "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
                 "title": "%command.autoUpdateLastModifiedTime%",

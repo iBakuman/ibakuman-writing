@@ -1,6 +1,7 @@
 {
     "ext.displayName": "iBakuman Writing",
     "ext.description": "使用 Markdown 所需要的一切（快捷键，目录，自动预览以及更多功能）",
+    "command.leetcode.formatProblem": "格式化 LeetCode 题目",
     "command.autoUpdateLastModifiedTime": "更新 Front Matter 中最后修改时间字段的值",
     "command.downloadAllImage.title": "下载当前打开文件的所有图片到本地",
     "command.toc.create.title": "创建目录",
