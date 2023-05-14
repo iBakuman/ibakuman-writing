@@ -62,11 +62,17 @@ export interface IConfigurationKeyTypeMap {
     "toc.unorderedList.marker": MarkdownBulletListMarker;
     "toc.updateOnSave": boolean;
 
+    /** default lang for codeblock */
+    "codeblock.defaultLanguage": string;
+
     /** note-feature config */
-    "note.translationClass": string;
-    "note.highlightClass": string;
+    "note.translation.class": string;
     /** The path of translation file relative to the workspace */
-    "note.translationFilePath": string;
+    "note.citation.translation.path": string;
+    "note.citation.translation.maxEntries": number;
+    "note.citation.wiki.path": string;
+    "note.citation.wiki.maxEntries": number;
+    "note.highlightClass": string;
 
     /** the folder where the downloaded images are stored */
     "downloadImage.folder": string;

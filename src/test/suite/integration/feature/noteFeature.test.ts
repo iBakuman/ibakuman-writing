@@ -1,6 +1,7 @@
 import { env, Selection, workspace } from 'vscode';
 import { resetConfiguration } from "../../util/configuration";
 import { testCommand } from "../../util/generic";
+import { configManager } from '../../../../configuration/manager';
 
 suite("Note Features.", () => {
     suiteSetup(async () => {
@@ -82,9 +83,7 @@ suite("Note Features.", () => {
     });
 
     suite("Add Translation Text.", () => {
-        const className = workspace
-            .getConfiguration("markdown.extension.note")
-            .get<string>("translationClass")!;
+        const className = configManager.get('note.translation.class')
 
         suiteSetup(async () => {
             await resetConfiguration();

@@ -2,6 +2,7 @@
 
 import { commands, env, ExtensionContext, Position, Range, Selection, SnippetString, TextDocument, TextEditor, window, workspace, WorkspaceEdit } from 'vscode';
 import { fixMarker } from './listEditing';
+import { configManager } from './configuration/manager';
 
 export function activate(context: ExtensionContext) {
     context.subscriptions.push(
@@ -14,7 +15,6 @@ export function activate(context: ExtensionContext) {
         commands.registerCommand('markdown.extension.editing.toggleHeadingUp', toggleHeadingUp),
         commands.registerCommand('markdown.extension.editing.toggleHeadingDown', toggleHeadingDown),
         commands.registerCommand('markdown.extension.editing.toggleList', toggleList),
-        commands.registerCommand('markdown.extension.editing.toggleCodeBlock', toggleCodeBlock),
         commands.registerCommand('markdown.extension.editing.paste', paste),
         commands.registerCommand('markdown.extension.editing._wrapBy', args => styleByWrapping(args['before'], args['after']))
     );
@@ -39,60 +39,6 @@ function toggleEmphasis(type: EmphasisType) {
 
 function toggleCodeSpan() {
     return styleByWrapping('`');
-}
-
-function toggleCodeBlock() {
-    const editor = window.activeTextEditor!;
-    if (editor.selection.isEmpty) {
-        return;
-    }
-    const shrunkSelection = shrinkSelection(editor.document, editor.selection);
-    const defaultLang = workspace
-        .getConfiguration("markdown.extension.codeblock")
-        .get<string>("defaultLanguage")!;
-    const startLineIndex = shrunkSelection.start.line;
-    // Range class is the super class of Selection class.
-    const repl = `\`\`\`${defaultLang}\n${editor.document.getText(shrunkSelection)}\n\`\`\``;
-    return editor
-        .edit((editBuilder) => {
-            editBuilder.replace(shrunkSelection, repl);
-        })
-        .then(() => {
-            editor.selection = new Selection(
-                startLineIndex,
-                3,
-                startLineIndex,
-                3 + defaultLang.length
-            );
-        });
-}
-
-/**
- * Shrinks the selection area so that it does not contain the beginning and ending blank line.
- * NOTE: Returns a selection field containing one empty line when all selection fields are empty.
- * @param selection the original selection obj.
- * @returns The shrunk selection.
- */
-function shrinkSelection(doc: TextDocument, origin: Selection): Selection {
-    // shrink
-    let start = origin.start.line;
-    let end = origin.end.line;
-    while (start < end) {
-        if (doc.lineAt(start).isEmptyOrWhitespace) {
-            start++;
-        } else {
-            break;
-        }
-    }
-    while (start < end) {
-        if (doc.lineAt(end).isEmptyOrWhitespace) {
-            end--;
-        } else {
-            break;
-        }
-    }
-    let character = doc.lineAt(end).text.length;
-    return new Selection(start, 0, end, character);
 }
 
 function toggleStrikethrough() {
@@ -367,7 +313,7 @@ function getNextListStart(current: ListMarker): ListMarker {
 }
 
 /**
- * get candidate markers array from configuration 
+ * get candidate markers array from configuration
  */
 function getCandidateMarkers(): ListMarker[] {
     // read configArray from configuration and append space

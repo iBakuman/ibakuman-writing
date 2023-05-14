@@ -352,6 +352,11 @@
                 "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
             },
             {
+                "command": "markdown.extension.note.addWikiToMD",
+                "key": "alt+r",
+                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
+            },
+            {
                 "command": "markdown.extension.note.addTranslation",
                 "key": "alt+v",
                 "when": "editorTextFocus && editorHasSelection && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
@@ -398,15 +403,30 @@
                     "default": "ibakuman-inline-note",
                     "description": "%config.note.highlightClass%"
                 },
-                "markdown.extension.note.translationClass": {
+                "markdown.extension.note.translation.class": {
                     "type": "string",
                     "default": "ibakuman-inline-translation",
-                    "description": "%config.note.translationClass%"
+                    "description": "%config.note.translation.class%"
                 },
-                "markdown.extension.note.translationFilePath": {
+                "markdown.extension.note.citation.translation.path": {
                     "type": "string",
-                    "default": "./content/posts/english/algorithm/index.en.md",
-                    "description": "%config.note.translationFilePath%"
+                    "default": "./content/posts/citation/english",
+                    "description": "%config.note.citation.translation.path%"
+                },
+                "markdown.extension.note.citation.translation.maxEntries": {
+                    "type": "integer",
+                    "default": 20,
+                    "description": "%config.note.citation.translation.maxEntries%"
+                },
+                "markdown.extension.note.citation.wiki.path": {
+                    "type": "string",
+                    "default": "./content/posts/citation/wiki",
+                    "description": "%config.note.citation.wiki.path%"
+                },
+                "markdown.extension.note.citation.wiki.maxEntries": {
+                    "type": "integer",
+                    "default": 20,
+                    "description": "%config.note.citation.wiki.maxEntries%"
                 },
                 "markdown.extension.italic.indicator": {
                     "type": "string",
