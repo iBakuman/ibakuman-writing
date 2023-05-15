@@ -3,7 +3,7 @@ import { resetConfiguration } from "../../util/configuration";
 import { testCommand } from "../../util/generic";
 import { configManager } from '../../../../configuration/manager';
 
-suite("Note Features.", () => {
+suite("Markup Feature.", () => {
     suiteSetup(async () => {
         await resetConfiguration();
     });
@@ -13,9 +13,8 @@ suite("Note Features.", () => {
     });
 
     suite("Highlight Selected Text.", () => {
-        const className = workspace
-            .getConfiguration("markdown.extension.note")
-            .get<string>("highlightClass")!;
+        const className = configManager.get("note.highlightClass")
+
         const openTag = `<span class="${className}">`;
         const closeTag = `</span>`;
 
@@ -104,4 +103,3 @@ suite("Note Features.", () => {
         });
     })
 })
-

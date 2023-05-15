@@ -1,6 +1,7 @@
 import { resetConfiguration } from "../../util/configuration"
 import { testCommand } from "../../util/generic";
 import { Selection } from 'vscode';
+import * as path from 'path'
 
 suite("Quick Heading.", () => {
     suiteSetup(async () => {
