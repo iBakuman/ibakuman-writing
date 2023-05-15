@@ -410,7 +410,7 @@
                 },
                 "markdown.extension.note.citation.translation.path": {
                     "type": "string",
-                    "default": "./content/posts/citation/english",
+                    "default": "/posts/citation/english",
                     "description": "%config.note.citation.translation.path%"
                 },
                 "markdown.extension.note.citation.translation.maxEntries": {
@@ -420,7 +420,7 @@
                 },
                 "markdown.extension.note.citation.wiki.path": {
                     "type": "string",
-                    "default": "./content/posts/citation/wiki",
+                    "default": "/posts/citation/wiki",
                     "description": "%config.note.citation.wiki.path%"
                 },
                 "markdown.extension.note.citation.wiki.maxEntries": {
