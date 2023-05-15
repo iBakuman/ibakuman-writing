@@ -513,7 +513,7 @@
                 },
                 "markdown.extension.preview.autoShowPreviewToSide": {
                     "type": "boolean",
-                    "default": true,
+                    "default": false,
                     "description": "%config.preview.autoShowPreviewToSide.description%"
                 },
                 "markdown.extension.print.absoluteImgPath": {

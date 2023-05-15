@@ -33,7 +33,6 @@
                 "${workspaceFolder}/out/test/**/*.js"
             ],
             "preLaunchTask": "npm: pretest",
-            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
