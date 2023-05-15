@@ -17,19 +17,27 @@
                 "kind": "build",
                 "isDefault": true
             },
+            // When using zsh on Linux, setting terminal.integrated.profiles.linux.zsh.args="-i"
+            // in the user configuration file can achieve the same effect as the following
+            // configuration.
             "options": {
-                "env": {
-                    "PATH": "${env:PATH}:${env:HOME}/.nvm/versions/node/v16.19.1/bin"
+                "shell": {
+                    "args": [
+                        "-i"
+                    ]
                 }
             }
         },
         {
             "label": "echo-env",
             "type": "shell",
-            "command": "echo -n 'shell: ${env:PATH}\r\nworkspaceFolder: ${workspaceFolder}\r\nexecPath: ${execPath}'",
+            "command": "echo $PATH",
+            "isBackground": true,
             "options": {
-                "env": {
-                    "PATH": "${env:PATH}:${env:HOME}/.nvm/versions/node/v16.19.1/bin"
+                "shell": {
+                    "args": [
+                        "-i"
+                    ]
                 }
             }
         }
