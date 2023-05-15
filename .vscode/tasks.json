@@ -5,24 +5,33 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Dev - Compile",
-            "detail": "Fast compilation for development time.",
+            "label": "dev-build",
+            "detail": "Fast build for development time.",
             "type": "npm",
-            "script": "dev-compile",
-            "problemMatcher": "$tsc-watch",
-            "isBackground": true,
+            "script": "dev-build",
+            "isBackground": false,
             "presentation": {
                 "reveal": "never"
             },
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+            "options": {
+                "env": {
+                    "PATH": "${env:PATH}:${env:HOME}/.nvm/versions/node/v16.19.1/bin"
+                }
             }
         },
         {
-            "label": "echo build-in env",
+            "label": "echo-env",
             "type": "shell",
-            "command": "echo -n 'workspaceFolder: ${workspaceFolder}\r\nexecPath: ${execPath}'"
+            "command": "echo -n 'shell: ${env:PATH}\r\nworkspaceFolder: ${workspaceFolder}\r\nexecPath: ${execPath}'",
+            "options": {
+                "env": {
+                    "PATH": "${env:PATH}:${env:HOME}/.nvm/versions/node/v16.19.1/bin"
+                }
+            }
         }
     ]
 }
