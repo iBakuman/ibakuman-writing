@@ -40,6 +40,19 @@
                     ]
                 }
             }
+        },
+        {
+            "label": "install extension",
+            "type": "shell",
+            "command": "npm run uninstall && npm run install",
+            "isBackground": true,
+            "options": {
+                "shell": {
+                    "args": [
+                        "-i"
+                    ]
+                }
+            }
         }
     ]
 }

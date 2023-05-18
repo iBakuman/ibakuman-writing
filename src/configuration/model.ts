@@ -74,6 +74,9 @@ export interface IConfigurationKeyTypeMap {
     "note.citation.wiki.maxEntries": number;
     "note.highlightClass": string;
 
+    /** leetcode */
+    "leetcode.problemDir": string;
+
     /** the folder where the downloaded images are stored */
     "downloadImage.folder": string;
 

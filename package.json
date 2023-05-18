@@ -79,6 +79,11 @@
                 "category": "Markdown All in One"
             },
             {
+                "command": "markdown.extension.leetcode.createProblemDir",
+                "title": "%command.leetcode.createProblemDir%",
+                "category": "Markdown All in One"
+            },
+            {
                 "command": "markdown.extension.note.increaseHeadingLevel",
                 "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
                 "title": "%command.note.increaseHeadingLevel%",
@@ -366,6 +371,11 @@
             "type": "object",
             "title": "%config.title%",
             "properties": {
+                "markdown.extension.leetcode.problemDir": {
+                    "type": "string",
+                    "default": "content/posts/leetcode/problems",
+                    "markdownDescription": "%config.leetcode.problemDir%"
+                },
                 "markdown.extension.autoUpdateLastModifiedTime.enable": {
                     "type": "boolean",
                     "default": true,
