@@ -6,7 +6,7 @@
     "version": "3.5.5",
     "publisher": "ibakuman",
     "engines": {
-        "vscode": "^1.63.0"
+        "vscode": "^1.72.0"
     },
     "categories": [
         "Programming Languages",
@@ -174,6 +174,20 @@
                 "category": "Markdown All in One"
             }
         ],
+        "menus": {
+            "editor/context": [
+                {
+                    "command": "markdown.extension.printToHtml",
+                    "when": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
+                    "group": "markdown.print@1"
+                },
+                {
+                    "command": "markdown.extension.printToHtmlBatch",
+                    "when": "editorLangId =~ /^markdown$|^rmd$|^quarto$/ && workspaceFolderCount >= 1",
+                    "group": "markdown.print@2"
+                }
+            ]
+        },
         "keybindings": [
             {
                 "command": "markdown.extension.editing.toggleBold",
@@ -280,19 +294,19 @@
             {
                 "command": "markdown.extension.checkTaskList",
                 "key": "alt+c",
-                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && markdown.extension.editor.cursor.inList"
+                "when": "editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && !isMac"
             },
             {
                 "command": "markdown.extension.closePreview",
                 "key": "ctrl+shift+v",
                 "mac": "cmd+shift+v",
-                "when": "markdownPreviewFocus"
+                "when": "activeWebviewPanelId == 'markdown.preview'"
             },
             {
                 "command": "markdown.extension.closePreview",
                 "key": "ctrl+k v",
                 "mac": "cmd+k v",
-                "when": "markdownPreviewFocus"
+                "when": "activeWebviewPanelId == 'markdown.preview'"
             },
             {
                 "command": "markdown.extension.editing.paste",
@@ -385,6 +399,12 @@
                     "type": "string",
                     "default": "lastmod",
                     "markdownDescription": "%config.autoUpdateLastModifiedTime.fieldName%"
+                },
+                "markdown.extension.completion.enabled": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "%config.completion.enabled%",
+                    "scope": "resource"
                 },
                 "markdown.extension.completion.respectVscodeSearchExclude": {
                     "type": "boolean",
@@ -547,6 +567,12 @@
                     "type": "boolean",
                     "default": false,
                     "description": "%config.print.onFileSave.description%",
+                    "scope": "resource"
+                },
+                "markdown.extension.print.pureHtml": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "%config.print.pureHtml.description%",
                     "scope": "resource"
                 },
                 "markdown.extension.print.theme": {
@@ -741,8 +767,8 @@
         "pretest": "tsc --build",
         "test": "node ./out/test/runTest.js",
         "package": "node -e \"require('./build/dist.js').package()\"",
-        "install": "node -e \"require('./build/dist.js').install()\"",
-        "uninstall": "node -e \"require('./build/dist.js').uninstall()\""
+        "install-ext": "node -e \"require('./build/dist.js').install()\"",
+        "uninstall-ext": "node -e \"require('./build/dist.js').uninstall()\""
     },
     "dependencies": {
         "@neilsustc/markdown-it-katex": "^1.0.0",
@@ -754,7 +780,7 @@
         "highlight.js": "^11.5.1",
         "image-size": "^0.9.3",
         "is-svg": "^4.3.2",
-        "katex": "^0.15.3",
+        "katex": "^0.16.4",
         "markdown-it": "^12.3.2",
         "markdown-it-task-lists": "^2.1.1",
         "moment": "^2.29.4",

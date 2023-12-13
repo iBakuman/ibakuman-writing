@@ -131,11 +131,11 @@ async function print(type: string, uri?: Uri, outFolder?: string) {
         });
     }
 
-    //// Convert `.md` links to `.html` by default (#667)
+    //// Convert `.md` links to `.html` by default (#667, #1324, #1347)
     const hrefRegex = /(<a[^>]+href=")([^"]+)("[^>]*>)/g;  // Match '<a...href="..."...>'
     body = body.replace(hrefRegex, function (_, g1, g2, g3) {
-        if (g2.endsWith('.md')) {
-            return `${g1}${g2.replace(/\.md$/, '.html')}${g3}`;
+        if ((g2.endsWith('.md') || g2.includes('.md#')) && !(g2.includes('github.com') && g2.includes('blob'))) {
+            return `${g1}${g2.replace(/\.md$/, '.html').replace(/\.md#/, '.html#')}${g3}`;
         } else {
             return _;
         }
@@ -145,22 +145,27 @@ async function print(type: string, uri?: Uri, outFolder?: string) {
     const extensionStyles = await getPreviewExtensionStyles();
     const extensionScripts = await getPreviewExtensionScripts();
     const includeVscodeStyles = config.get<boolean>('print.includeVscodeStylesheets')!;
+    const pureHtml = config.get<boolean>('print.pureHtml')!;
     const themeKind = config.get<string>('print.theme');
     const themeClass = themeKind === 'light' ? 'vscode-light' : themeKind === 'dark' ? 'vscode-dark' : '';
-    const html = `<!DOCTYPE html>
-    <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>${title ? encodeHTML(title) : ''}</title>
-        ${extensionStyles}
-        ${getStyles(doc.uri, hasMath, includeVscodeStyles)}
-    </head>
-    <body class="vscode-body ${themeClass}">
-        ${body}
-        ${hasMath ? '<script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>' : ''}
-        ${extensionScripts}
-    </body>
-    </html>`;
+
+    let html = body;
+    if (!pureHtml) {
+        html = `<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>${title ? encodeHTML(title) : ''}</title>
+            ${extensionStyles}
+            ${getStyles(doc.uri, hasMath, includeVscodeStyles)}
+        </head>
+        <body class="vscode-body ${themeClass}">
+            ${body}
+            ${hasMath ? '<script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>' : ''}
+            ${extensionScripts}
+        </body>
+        </html>`;
+    }
 
     switch (type) {
         case 'html':

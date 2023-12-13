@@ -2,7 +2,7 @@
 
 [![version](https://img.shields.io/vscode-marketplace/v/yzhang.markdown-all-in-one.svg?style=flat-square&label=vscode%20marketplace)](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one)
 [![installs](https://img.shields.io/vscode-marketplace/d/yzhang.markdown-all-in-one.svg?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=yzhang.markdown-all-in-one)
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/yzhang-gh/vscode-markdown/CI?style=flat-square)](https://github.com/yzhang-gh/vscode-markdown/actions)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/yzhang-gh/vscode-markdown/main.yml?style=flat-square&branch=master)](https://github.com/yzhang-gh/vscode-markdown/actions)
 [![GitHub stars](https://img.shields.io/github/stars/yzhang-gh/vscode-markdown.svg?style=flat-square&label=github%20stars)](https://github.com/yzhang-gh/vscode-markdown)
 [![GitHub Contributors](https://img.shields.io/github/contributors/yzhang-gh/vscode-markdown.svg?style=flat-square)](https://github.com/yzhang-gh/vscode-markdown/graphs/contributors)
 
@@ -117,7 +117,7 @@ See full key binding list in the [keyboard shortcuts](#keyboard-shortcuts-1) sec
 - **Compatible** with other installed Markdown plugins (e.g. [Markdown Footnotes](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-footnotes)).
   The exported HTML should look the same as inside VS Code (except for a few theme colors due to the limitations of APIs).
 
-- Use comment `<!-- title: Your Title -->` to specify a title of the exported HTML.
+- Use comment `<!-- title: Your Title -->` (in the first line) to specify a title of the exported HTML.
 
 - Plain links to `.md` files will be converted to `.html`.
 
