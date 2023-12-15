@@ -1,5 +1,5 @@
-import { commands, env, ExtensionContext, Position, Range, Selection, window } from 'vscode';
-import { configManager } from '../configuration/manager';
+import {commands, env, ExtensionContext, Position, Range, Selection, window} from 'vscode';
+import {configManager} from '../configuration/manager';
 import path = require('path');
 
 export function activate(context: ExtensionContext) {
@@ -41,7 +41,7 @@ function highlightSelectedTxt() {
                 nextCursorPos = curCursorPos.translate(0, -openTag.length);
             } else {
                 // `<spa|n class="...">te|xt</spa|n>` ---> `|text`
-                nextCursorPos = curCursorPos.with({ character: match.index! });
+                nextCursorPos = curCursorPos.with({character: match.index!});
             }
 
             newSelection = new Selection(nextCursorPos, nextCursorPos);
@@ -71,15 +71,35 @@ function highlightSelectedTxt() {
 async function addTranslation() {
     const editor = window.activeTextEditor!;
     const selection = editor.selection;
+    const curCursorPos = editor.selection.active;
+
+    let content = ''
     if (selection.isEmpty) {
-        return;
+        // get the word under cursor
+        const wordRange = editor.document.getWordRangeAtPosition(curCursorPos)
+        if (wordRange === undefined) {
+            // no word under cursor
+            return;
+        }
+        content = editor.document.getText(wordRange);
+    } else {
+        content = editor.document.getText(selection);
     }
-    const translation = await env.clipboard.readText();
+
     const className = configManager.get("note.translation.class")
-    const content = editor.document.getText(selection);
-    const repl = `<span class="${className}">${content}<sub> { ${translation} }</sub></span>`;
+    const translation = await env.clipboard.readText();
+    // const repl = `<span class="${className}">${content}<sub> { ${translation} }</sub></span>`;
+    const sub1 = `<span class="${className}" data-hover-text="`
+    const sub2 = `${translation}">${content}</span>`;
+    const repl = sub1 + sub2;
+
     return editor.edit((editBuilder) => {
         editBuilder.replace(selection, repl);
+    }).then(() => {
+        editor.selection = new Selection(
+            selection.start.translate(0, sub1.length),
+            selection.start.translate(0, sub1.length + translation.length)
+        )
     })
 }
 

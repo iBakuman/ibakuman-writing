@@ -1,7 +1,7 @@
-import { env, Selection, workspace } from 'vscode';
-import { resetConfiguration } from "../../util/configuration";
-import { testCommand } from "../../util/generic";
-import { configManager } from '../../../../configuration/manager';
+import {env, Selection, workspace} from 'vscode';
+import {resetConfiguration} from "../../util/configuration";
+import {testCommand} from "../../util/generic";
+import {configManager} from '../../../../configuration/manager';
 
 suite("Markup Feature.", () => {
     suiteSetup(async () => {
@@ -93,12 +93,20 @@ suite("Markup Feature.", () => {
         });
 
         test("Add Translation from clipboard.", async () => {
-            await env.clipboard.writeText('translation');
-            const expected = `<span class="${className}">text<sub> { translation }</sub></span>`;
+            const translationText = 'jifdkfjdfj';
+            await env.clipboard.writeText(translationText);
+            const selected = 'text';
+            const sub1 = `<span class="${className}" data-hover-text="`
+            const sub2 = `${translationText}">${selected}</span>`;
+            const expected = sub1 + sub2;
             return testCommand(
                 'markdown.extension.note.addTranslation',
-                ['text'], new Selection(0, 0, 0, 4),
-                [expected], new Selection(0, 0, 0, expected.length)
+                [selected],
+                new Selection(0, 0,
+                    0, selected.length),
+                [expected],
+                new Selection(0, sub1.length,
+                    0, sub1.length + translationText.length)
             );
         });
     })

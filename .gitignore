@@ -11,3 +11,5 @@ test/content
 # The welcome materials
 /welcome/**
 /changes.md
+
+.idea/

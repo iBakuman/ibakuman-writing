@@ -1,7 +1,6 @@
 import { resetConfiguration } from "../../util/configuration"
 import { testCommand } from "../../util/generic";
 import { Selection } from 'vscode';
-import * as path from 'path'
 
 suite("Quick Heading.", () => {
     suiteSetup(async () => {
@@ -111,4 +110,11 @@ suite("Quick Heading.", () => {
             ['## heading'], new Selection(0, 10, 0, 10));
     })
     /* =============== Switch Between Different Heading Levels End ============== */
+
+    /* Format Heading */
+    test("Format heading", () => {
+        return testCommand("markdown.extension.heading.format",
+            ['# [](j)heading'], new Selection(0, 0, 0, 0),
+            ['# heading'], new Selection(0, 0, 0, 0));
+    })
 })

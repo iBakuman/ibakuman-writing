@@ -73,9 +73,15 @@
         ],
         "commands": [
             {
-                "command": "markdown.extension.note.decreaseHeadingLevel",
+                "command": "markdown.extension.heading.format",
                 "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
-                "title": "%command.note.decreaseHeadingLevel%",
+                "title:": "%command.heading.format%",
+                "category": "Markdown All in One"
+            },
+            {
+                "command": "markdown.extension.heading.decreaseLevel",
+                "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
+                "title": "%command.heading.decreaseLevel%",
                 "category": "Markdown All in One"
             },
             {
@@ -84,9 +90,9 @@
                 "category": "Markdown All in One"
             },
             {
-                "command": "markdown.extension.note.increaseHeadingLevel",
+                "command": "markdown.extension.heading.increaseLevel",
                 "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
-                "title": "%command.note.increaseHeadingLevel%",
+                "title": "%command.heading.increaseLevel%",
                 "category": "Markdown All in One"
             },
             {

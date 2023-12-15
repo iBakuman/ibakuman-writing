@@ -1,10 +1,23 @@
-import { commands, env, ExtensionContext, Position, Range, Selection, TextDocument, window, workspace, WorkspaceEdit } from 'vscode';
-import { configManager } from '../configuration/manager';
+import {
+    commands,
+    env,
+    ExtensionContext,
+    Position,
+    Range,
+    Selection,
+    TextDocument,
+    window,
+    workspace,
+    WorkspaceEdit
+} from 'vscode';
+import {configManager} from '../configuration/manager';
+import {mathEnvCheck} from "../util/contextCheck";
 
 export function activate(context: ExtensionContext) {
     context.subscriptions.push(
-        commands.registerCommand('markdown.extension.note.increaseHeadingLevel', () => increaseHeadingLevel()),
-        commands.registerCommand('markdown.extension.note.decreaseHeadingLevel', () => decreaseHeadingLevel()),
+        commands.registerCommand('markdown.extension.heading.format', () => formatHeading()),
+        commands.registerCommand('markdown.extension.heading.increaseLevel', () => increaseHeadingLevel()),
+        commands.registerCommand('markdown.extension.heading.decreaseLevel', () => decreaseHeadingLevel()),
         commands.registerCommand('markdown.extension.heading.toggleLevel1', () => toggleHeadingLevel(HeadingLevel.LEVEL1)),
         commands.registerCommand('markdown.extension.heading.toggleLevel2', () => toggleHeadingLevel(HeadingLevel.LEVEL2)),
         commands.registerCommand('markdown.extension.heading.toggleLevel3', () => toggleHeadingLevel(HeadingLevel.LEVEL3)),
@@ -23,6 +36,7 @@ enum HeadingLevel {
     LEVEL5 = '#####',
     LEVEL6 = '######',
 }
+
 async function toggleHeadingLevel(level: HeadingLevel) {
     const editor = window.activeTextEditor!;
     // 获得当前鼠标光标所在行号
@@ -48,7 +62,7 @@ async function toggleHeadingLevel(level: HeadingLevel) {
         }
     }
 
-    return await editor.edit((editBuilder) => {
+    return editor.edit((editBuilder) => {
         editBuilder.replace(
             new Range(new Position(lineIndex, 0), new Position(lineIndex, lineText.length)),
             repl);
@@ -56,7 +70,7 @@ async function toggleHeadingLevel(level: HeadingLevel) {
         editor.selection = new Selection(
             new Position(lineIndex, repl.length),
             new Position(lineIndex, repl.length));
-    })
+    });
 }
 
 async function increaseHeadingLevel() {
@@ -104,6 +118,33 @@ async function decreaseHeadingLevel() {
             if (hashLen < 6) {
                 await editor.edit((editBuilder) => {
                     editBuilder.insert(line.range.start, '#')
+                })
+            }
+        }
+    }
+}
+
+async function formatHeading() {
+    const editor = window.activeTextEditor
+    if (!editor) {
+        return
+    }
+    const doc = editor.document
+    for (let lineNum = 0; lineNum < doc.lineCount; lineNum++) {
+        const line = doc.lineAt(lineNum)
+        if (line.text.startsWith('#')) {
+            let [textWithHeading, hashLen] = [line.text, 1]
+            while (hashLen < textWithHeading.length && textWithHeading[hashLen] == '#') {
+                hashLen++
+            }
+
+            // remove non-title link in heading.
+            // for example: `## [ ](https://www.example.com) title` -> `## title`
+            const regex = /^(#+) ?\[ *]\(.*\)(.*)$/
+            const match = textWithHeading.match(regex)
+            if (match != null) {
+                await editor.edit((editBuilder) => {
+                    editBuilder.replace(line.range, `${match[1]} ${match[2]}`)
                 })
             }
         }
