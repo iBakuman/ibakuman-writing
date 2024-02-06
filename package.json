@@ -6,7 +6,7 @@
     "version": "3.5.5",
     "publisher": "ibakuman",
     "engines": {
-        "vscode": "^1.72.0"
+        "vscode": "^1.77.0"
     },
     "categories": [
         "Programming Languages",
@@ -28,7 +28,6 @@
         "onLanguage:markdown",
         "onLanguage:rmd",
         "onLanguage:quarto",
-        "onCommand:markdown.extension.printToHtmlBatch",
         "workspaceContains:README.md"
     ],
     "main": "./dist/node/main.js",
@@ -153,6 +152,7 @@
                 "command": "markdown.extension.editing.toggleCodeSpan",
                 "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
                 "title": "%command.editing.toggleCodeSpan.title%",
+                "icon":"$(code)",
                 "category": "Markdown All in One"
             },
             {
@@ -171,12 +171,40 @@
                 "command": "markdown.extension.editing.toggleList",
                 "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
                 "title": "%command.editing.toggleList.title%",
+                "icon":"$(list-unordered)",
                 "category": "Markdown All in One"
             },
             {
                 "command": "markdown.extension.editing.toggleCodeBlock",
                 "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
                 "title": "%command.editing.toggleCodeBlock.title%",
+                "category": "Markdown All in One"
+            },
+            {
+                "command": "markdown.extension.editing.toggleBold",
+                "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
+                "title": "%command.editing.toggleBold%",
+                "icon":"$(bold)",
+                "category": "Markdown All in One"
+            },
+            {
+                "command": "markdown.extension.editing.toggleItalic",
+                "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
+                "title": "%command.editing.toggleItalic%",
+                "icon":"$(italic)",
+                "category": "Markdown All in One"
+            },
+            {
+                "command": "markdown.extension.editing.toggleStrikethrough",
+                "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
+                "title": "%command.editing.toggleStrikethrough%",
+                "category": "Markdown All in One"
+            },
+            {
+                "command": "markdown.extension.checkTaskList",
+                "enablement": "editorLangId =~ /^markdown$|^rmd$|^quarto$/",
+                "title": "%command.checkTaskList%",
+                "icon":"$(tasklist)",
                 "category": "Markdown All in One"
             }
         ],
@@ -191,6 +219,33 @@
                     "command": "markdown.extension.printToHtmlBatch",
                     "when": "editorLangId =~ /^markdown$|^rmd$|^quarto$/ && workspaceFolderCount >= 1",
                     "group": "markdown.print@2"
+                }
+            ],
+            "editor/title": [
+                {
+                    "when": "editorLangId =~ /^markdown$|^rmd$|^quarto$/ && config.markdown.extension.showActionButtons",
+                    "command": "markdown.extension.editing.toggleBold",
+                    "group": "navigation@1"
+                },
+                {
+                    "when": "editorLangId =~ /^markdown$|^rmd$|^quarto$/ && config.markdown.extension.showActionButtons",
+                    "command": "markdown.extension.editing.toggleItalic",
+                    "group": "navigation@2"
+                },
+                {
+                    "when": "editorLangId =~ /^markdown$|^rmd$|^quarto$/ && config.markdown.extension.showActionButtons",
+                    "command": "markdown.extension.editing.toggleCodeSpan",
+                    "group": "navigation@3"
+                },
+                {
+                    "when": "editorLangId =~ /^markdown$|^rmd$|^quarto$/ && config.markdown.extension.showActionButtons",
+                    "command": "markdown.extension.editing.toggleList",
+                    "group": "navigation@4"
+                },
+                {
+                    "when": "editorLangId =~ /^markdown$|^rmd$|^quarto$/ && config.markdown.extension.showActionButtons",
+                    "command": "markdown.extension.checkTaskList",
+                    "group": "navigation@5"
                 }
             ]
         },
@@ -233,18 +288,18 @@
             {
                 "command": "markdown.extension.onEnterKey",
                 "key": "enter",
-                "when": "editorTextFocus && !editorReadonly && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && !suggestWidgetVisible && !editorHasMultipleSelections && vim.mode != 'Normal' && vim.mode != 'Visual' && vim.mode != 'VisualBlock' && vim.mode != 'VisualLine' && vim.mode != 'SearchInProgressMode' && vim.mode != 'CommandlineInProgress' && vim.mode != 'Replace' && vim.mode != 'EasyMotionMode' && vim.mode != 'EasyMotionInputMode' && vim.mode != 'SurroundInputMode' && !markdown.extension.editor.cursor.inFencedCodeBlock && !markdown.extension.editor.cursor.inMathEnv"
+                "when": "editorTextFocus && !editorReadonly && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && (!suggestWidgetVisible || config.editor.acceptSuggestionOnEnter == 'off') && !editorHasMultipleSelections && vim.mode != 'Normal' && vim.mode != 'Visual' && vim.mode != 'VisualBlock' && vim.mode != 'VisualLine' && vim.mode != 'SearchInProgressMode' && vim.mode != 'CommandlineInProgress' && vim.mode != 'Replace' && vim.mode != 'EasyMotionMode' && vim.mode != 'EasyMotionInputMode' && vim.mode != 'SurroundInputMode' && !markdown.extension.editor.cursor.inFencedCodeBlock && !markdown.extension.editor.cursor.inMathEnv"
             },
             {
                 "command": "markdown.extension.onCtrlEnterKey",
                 "key": "ctrl+enter",
                 "mac": "cmd+enter",
-                "when": "editorTextFocus && !editorReadonly && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && !suggestWidgetVisible && !editorHasMultipleSelections && !markdown.extension.editor.cursor.inFencedCodeBlock && !markdown.extension.editor.cursor.inMathEnv"
+                "when": "editorTextFocus && !editorReadonly && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && (!suggestWidgetVisible || config.editor.acceptSuggestionOnEnter == 'off') && !editorHasMultipleSelections && !markdown.extension.editor.cursor.inFencedCodeBlock && !markdown.extension.editor.cursor.inMathEnv"
             },
             {
                 "command": "markdown.extension.onShiftEnterKey",
                 "key": "shift+enter",
-                "when": "editorTextFocus && !editorReadonly && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && !suggestWidgetVisible && !editorHasMultipleSelections && !markdown.extension.editor.cursor.inFencedCodeBlock && !markdown.extension.editor.cursor.inMathEnv"
+                "when": "editorTextFocus && !editorReadonly && editorLangId =~ /^markdown$|^rmd$|^quarto$/ && (!suggestWidgetVisible || config.editor.acceptSuggestionOnEnter == 'off') && !editorHasMultipleSelections && !markdown.extension.editor.cursor.inFencedCodeBlock && !markdown.extension.editor.cursor.inMathEnv"
             },
             {
                 "command": "markdown.extension.onTabKey",
@@ -596,6 +651,11 @@
                     "default": true,
                     "description": "%config.print.validateUrls.description%"
                 },
+                "markdown.extension.showActionButtons": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "%config.showActionButtons.description%"
+                },
                 "markdown.extension.syntax.decorations": {
                     "type": "boolean",
                     "default": null,
@@ -735,8 +795,10 @@
         "markdown.markdownItPlugins": true,
         "markdown.previewStyles": [
             "./media/checkbox.css",
-            "./media/note.css",
-            "./node_modules/katex/dist/katex.min.css"
+            "./node_modules/katex/dist/katex.min.css",
+            "./node_modules/markdown-it-github-alerts/styles/github-colors-light.css",
+            "./node_modules/markdown-it-github-alerts/styles/github-colors-dark-media.css",
+            "./node_modules/markdown-it-github-alerts/styles/github-base.css"
         ],
         "grammars": [
             {
@@ -787,7 +849,8 @@
         "image-size": "^0.9.3",
         "is-svg": "^4.3.2",
         "katex": "^0.16.4",
-        "markdown-it": "^12.3.2",
+        "markdown-it": "^13.0.2",
+        "markdown-it-github-alerts": "^0.1.2",
         "markdown-it-task-lists": "^2.1.1",
         "moment": "^2.29.4",
         "string-similarity": "^4.0.4",
@@ -796,7 +859,7 @@
     "devDependencies": {
         "@types/glob": "^7.2.0",
         "@types/katex": "^0.14.0",
-        "@types/markdown-it": "^12.2.3",
+        "@types/markdown-it": "^13.0.7",
         "@types/mocha": "^9.1.0",
         "@types/node": "~14.18.13",
         "@types/string-similarity": "^4.0.0",

@@ -47,9 +47,22 @@ suite("List editing.", () => {
             [
                 '- item1',
                 '',
-                ''
             ],
-            new Selection(2, 0, 2, 0));
+            new Selection(1, 0, 1, 0));
+    });
+
+    test("Enter key. Outdent empty list item until it is top-level", () => {
+        return testCommand('markdown.extension.onEnterKey',
+            [
+                '- item1',
+                '  - '
+            ],
+            new Selection(1, 6, 1, 6),
+            [
+                '- item1',
+                '- '
+            ],
+            new Selection(1, 2, 1, 2));
     });
 
     test("Enter key. List marker `*`", () => {

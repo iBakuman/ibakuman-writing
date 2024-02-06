@@ -28,8 +28,8 @@ function onEnterKey(modifiers?: IModifier) {
     const editor = window.activeTextEditor!;
     let cursorPos: Position = editor.selection.active;
     let line = editor.document.lineAt(cursorPos.line);
-    let textBeforeCursor = line.text.substr(0, cursorPos.character);
-    let textAfterCursor = line.text.substr(cursorPos.character);
+    let textBeforeCursor = line.text.substring(0, cursorPos.character);
+    let textAfterCursor = line.text.substring(cursorPos.character);
 
     if (modifiers == 'shift') {
         return asNormal(editor, 'enter', modifiers);
@@ -52,13 +52,22 @@ function onEnterKey(modifiers?: IModifier) {
     }
 
     //// If it's an empty list item, remove it
-    if (/^([-+*]|[0-9]+[.)])( +\[[ x]\])?$/.test(textBeforeCursor.trim()) && textAfterCursor.trim().length == 0) {
-        return editor.edit(editBuilder => {
-            editBuilder.delete(line.range);
-            editBuilder.insert(line.range.end, '\n');
-        }).then(() => {
-            editor.revealRange(editor.selection);
-        }).then(() => fixMarker(editor));
+    if (
+        /^([-+*]|[0-9]+[.)])( +\[[ x]\])?$/.test(textBeforeCursor.trim())  // It is a (task) list item
+        && textAfterCursor.trim().length == 0                              // It is empty
+    ) {
+        if (/^\s+([-+*]|[0-9]+[.)]) +(\[[ x]\] )?$/.test(textBeforeCursor)) {
+            // It is not a top-level list item, outdent it
+            return outdent(editor).then(() => fixMarker(editor));
+        } else if (/^([-+*]|[0-9]+[.)]) $/.test(textBeforeCursor)) {
+            // It is a general list item, delete the list marker
+            return deleteRange(editor, new Range(cursorPos.with({ character: 0 }), cursorPos)).then(() => fixMarker(editor));
+        } else if (/^([-+*]|[0-9]+[.)]) +(\[[ x]\] )$/.test(textBeforeCursor)) {
+            // It is a task list item, delete the checkbox
+            return deleteRange(editor, new Range(cursorPos.with({ character: textBeforeCursor.length - 4 }), cursorPos)).then(() => fixMarker(editor));
+        } else {
+            return asNormal(editor, 'enter', modifiers);
+        }
     }
 
     let matches: RegExpExecArray | null;

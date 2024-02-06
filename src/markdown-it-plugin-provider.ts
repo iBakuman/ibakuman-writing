@@ -10,7 +10,8 @@ const katexOptions: KatexOptions = { throwOnError: false };
  * https://code.visualstudio.com/api/extension-guides/markdown-extension#adding-support-for-new-syntax-with-markdownit-plugins
  */
 export function extendMarkdownIt(md: MarkdownIt): MarkdownIt {
-    // md.use(require("markdown-it-task-lists"), { enabled: true }).use(shortcodePlugin);
+    md.use(require("markdown-it-task-lists"), {enabled: true});
+    md.use(require("markdown-it-github-alerts"))
 
     if (configManager.get("math.enabled")) {
         // We need side effects. (#521)
